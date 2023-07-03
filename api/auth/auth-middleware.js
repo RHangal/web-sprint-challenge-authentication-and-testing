@@ -24,6 +24,7 @@ async function checkUsernameReal(req, res, next) {
   try {
     const user = await User.findBy({ username: req.body.username });
     if (user) {
+      req.user = user;
       next();
     } else {
       next({ status: 422, message: "invalid credentials" });
