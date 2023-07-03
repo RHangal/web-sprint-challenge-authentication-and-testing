@@ -20,8 +20,21 @@ async function checkUsernameFree(req, res, next) {
     next(err);
   }
 }
+async function checkUsernameReal(req, res, next) {
+  try {
+    const user = await User.findBy({ username: req.body.username });
+    if (user) {
+      next();
+    } else {
+      next({ status: 422, message: "invalid credentials" });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
   checkPasswordAndUsernameExists,
   checkUsernameFree,
+  checkUsernameReal,
 };
